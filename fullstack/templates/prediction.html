@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .container { padding: 20px; border: 1px solid #ccc; border-radius: 10px; width: 400px; margin: auto; }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Result</h2>
+        <p>{{ prediction }}</p>
+
+        <!-- Result button -->
+        <form action="/predictive_form" method="get">
+            <button type="submit">Result</button>
+        </form>
+    </div>
+</body>
+</html>

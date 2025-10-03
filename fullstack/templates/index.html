@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NeuroPredict AI - Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: #e0e0e0;
+      background-color: #0d0d1a;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---------------- HEADER ---------------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: rgba(2, 21, 42, 0.5);
+      border-bottom: 1px solid rgba(0, 198, 255, 0.3);
+      width: 100%;
+      box-sizing: border-box;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00C6FF, #0072FF);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #00C6FF;
+    }
+
+    .nav-links .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #00C6FF, #0072FF);
+      color: #fff !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 198, 255, 0.4);
+    }
+
+    /* ---------------- CHAT ---------------- */
+    .chat-container {
+      background-color: rgba(2, 21, 42, 0.5);
+      border-radius: 15px;
+      border: 1px solid rgba(0, 198, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 198, 255, 0.2);
+      width: 90%;
+      max-width: 800px;
+      margin: 120px auto 40px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #00C6FF, #0072FF);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .chat-box {
+      flex-grow: 1;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 198, 255, 0.2);
+      height: 400px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .message {
+      padding: 12px 16px;
+      border-radius: 8px;
+      max-width: 75%;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .user-message {
+      background: linear-gradient(90deg, #00C6FF, #0072FF);
+      color: white;
+      align-self: flex-end;
+      box-shadow: 0 2px 8px rgba(0, 198, 255, 0.3);
+    }
+
+    .bot-message {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 198, 255, 0.2);
+      color: #e0e0e0;
+      align-self: flex-start;
+      box-shadow: 0 2px 8px rgba(0, 198, 255, 0.2);
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    #userInput {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid rgba(0, 198, 255, 0.3);
+      border-radius: 6px;
+      background: transparent;
+      color: #e0e0e0;
+      font-size: 15px;
+      outline: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #00C6FF, #0072FF);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 198, 255, 0.4);
+    }
+
+    .typing-indicator {
+      color: #888;
+      font-style: italic;
+      padding: 5px 15px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo-text">🧬 NeuroPredict AI ⚕️</div>
+    <nav class="nav-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('help') }}">Help</a>
+      <a href="{{ url_for('index') }}">Chatbot</a>
+            <a href="{{ url_for('aboutdiseases') }}">About Diseases</a>
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <!-- CHATBOT -->
+  <div class="chat-container">
+    <h1>Medical AI Assistant</h1>
+    <div class="chat-box" id="chatBox">
+      <div class="bot-message">Hello! How can I assist you with your health today?</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="userInput" placeholder="Ask a medical question...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chatBox');
+    const userInput = document.getElementById('userInput');
+
+    function addMessage(text, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+      messageDiv.textContent = text;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const messageText = userInput.value.trim();
+      if (!messageText) return;
+
+      addMessage(messageText, 'user');
+      userInput.value = '';
+
+      const typingIndicator = document.createElement('div');
+      typingIndicator.classList.add('typing-indicator');
+      typingIndicator.textContent = 'AI is typing...';
+      chatBox.appendChild(typingIndicator);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: messageText }),
+        });
+
+        chatBox.removeChild(typingIndicator);
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          addMessage(`Error: ${errorData.error || 'Failed to get response'}`, 'bot');
+          return;
+        }
+
+        const data = await response.json();
+        addMessage(data.response, 'bot');
+
+      } catch (error) {
+        if (chatBox.contains(typingIndicator)) {
+          chatBox.removeChild(typingIndicator);
+        }
+        console.error('Error sending message:', error);
+        addMessage('Sorry, I could not connect to the AI. Please try again later.', 'bot');
+      }
+    }
+
+    userInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
