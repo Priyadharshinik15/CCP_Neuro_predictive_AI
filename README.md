@@ -1,4 +1,4 @@
 <<<<<<< HEAD
-# CCP_project_AI_predictive_system
+# project_AI_predictive_system
 =======
 
