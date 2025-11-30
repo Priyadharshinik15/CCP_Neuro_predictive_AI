@@ -1,0 +1,8 @@
+{
+  "name": "Copy of Copy of Copy of AstraLex Contract Intelligence",
+  "description": "An AI-powered workbench for contract analysis, generation, and management. Leverage the power of Google's Gemini API to gain insights, assess risks, and streamline your legal workflows.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
